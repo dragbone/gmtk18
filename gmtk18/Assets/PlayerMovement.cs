@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdatedOrientation();
-        transform.Translate(direction * Time.deltaTime);
+        Player.transform.Translate(direction * Time.deltaTime);
     }
 
     private void UpdatedOrientation()
