@@ -75,19 +75,15 @@ public class PlayerTargeting : MonoBehaviour
 
     public void Shoot()
     {
+        _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
         if (CurrentEnemy != null)
         {
-            _shooting += Time.deltaTime;
-            while (_shooting >= ShootingTime)
+            if (_shooting <= 0f)
             {
                 var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
                 shot.GetComponent<Shot>().Construct(CurrentEnemy.gameObject, 0.25f);
-                _shooting -= ShootingTime;
+                _shooting = ShootingTime;
             }
-        }
-        else
-        {
-            _shooting = 0f;
         }
     }
 }
