@@ -7,23 +7,15 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     private GameObject _player;
+    private Slider _stateProgressBar;
+    
     public float State { get; private set; } = 0f;
     public float ShootSpeed = 0.5f;
-
-    public GameObject ProgressBarPrefab;
-
-    private GameObject stateProgressBar;
-
-    private Canvas _canvas;
-
-    private Camera _camera;
 
     void Start()
     {
         _player = FindObjectOfType<PlayerMovement>().gameObject;
-        _canvas = FindObjectOfType<Canvas>();
-        _camera = FindObjectOfType<Camera>();
-        stateProgressBar = Instantiate(ProgressBarPrefab, _canvas.transform);
+        _stateProgressBar = GetComponentInChildren<Slider>();
     }
 
     // Update is called once per frame
@@ -54,38 +46,11 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        var canvasRect = _canvas.GetComponent<RectTransform>();
-        
-        var viewportPoint = _camera.WorldToViewportPoint(transform.position);
-        if (viewportPoint.x >= 0 && viewportPoint.x <= 1 && viewportPoint.y > 0 && viewportPoint.y <= 1 && viewportPoint.z >= 0)
-        {
-            stateProgressBar.SetActive(true);
-        }
-        else
-        {
-            stateProgressBar.SetActive(false);
-            return;
-        }
-        
-        var progressBarCanvasPosition=new Vector2(
-            ((viewportPoint.x*canvasRect.sizeDelta.x)-(canvasRect.sizeDelta.x*0.5f)),
-            ((viewportPoint.y*canvasRect.sizeDelta.y)-(canvasRect.sizeDelta.y*0.5f)));
- 
-        var progressbarRectTransform = stateProgressBar.GetComponent<RectTransform>();
-        progressbarRectTransform.anchoredPosition=progressBarCanvasPosition - new Vector2(-50, 0);
-        
-        var progressbarSlider = stateProgressBar.GetComponent<Slider>();
-        progressbarSlider.value = State;
+        _stateProgressBar.value = State;
     }
 
     public void Hit(float damage)
     {
         State -= damage;
-    }
-    
-    void OnDestroy()
-    {
-        Destroy(stateProgressBar);
     }
 }
