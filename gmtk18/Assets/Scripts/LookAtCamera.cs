@@ -5,10 +5,11 @@ using UnityEngine;
 public class LookAtCamera : MonoBehaviour {
 
 	// Use this for initialization
-	public Camera cameraToLookAt;
+	private Camera cameraToLookAt;
 	
-	void Start () {
-		
+	void Start ()
+	{
+		cameraToLookAt = Camera.main;
 	}
 	
 	// Update is called once per frame
