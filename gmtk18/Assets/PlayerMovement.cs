@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject Player;
     public Text GuiText;
+    public GameObject ShotPrefab;
 
     private GameObject currentEnemy;
 
@@ -63,6 +65,12 @@ public class PlayerMovement : MonoBehaviour
         {
             var nextEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
             currentEnemy = enemies[nextEnemyIndex];
+        }
+
+        if (Input.GetMouseButtonDown(0) && currentEnemy != null)
+        {
+            var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
+            shot.GetComponent<Shot>().Construct(currentEnemy);
         }
 
         UpdatedOrientation();
