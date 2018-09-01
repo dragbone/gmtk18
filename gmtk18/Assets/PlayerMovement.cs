@@ -43,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                //var dist = Vector3.Distance(Player.transform.position, collider.gameObject.transform.position);
-                //Debug.Log("found enemy: " + collider.gameObject.name + " distance: " + dist);
                 enemies.Add(collider.gameObject);
                 if (currentEnemy == null)
                 {
@@ -55,8 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentEnemy == null) return;
 
-        var enemyTexts = enemies.Select(e =>
-            e.name + " : Distance: " + Vector3.Distance(Player.transform.position, e.gameObject.transform.position).ToString().Substring(0, 5));
+        var enemyTexts = enemies.Select(GetEnemyRadarText);
 
         GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
 
@@ -70,10 +67,27 @@ public class PlayerMovement : MonoBehaviour
             
         var eulerAngles = Quaternion.LookRotation(currentEnemy.transform.position - transform.position, Vector3.up)
             .eulerAngles;
-            
-        Player.transform.rotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
+        
+        var playerTargetRotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
+        if (Player.transform.rotation != playerTargetRotation)
+        {
+            Player.transform.rotation = Quaternion.Slerp(transform.rotation, playerTargetRotation, 15f * Time.deltaTime);
+        }
+        
+        var targetRotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+        if (transform.rotation != targetRotation)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 15f * Time.deltaTime);
+        }
+        
         Player.transform.Translate(direction * Time.deltaTime);
+    }
 
-        transform.rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+    private string GetEnemyRadarText(GameObject enemy)
+    {
+        var isCurrentEnemy = enemy == currentEnemy;
+        return enemy.name + " : Distance: " + Vector3
+                   .Distance(Player.transform.position, enemy.gameObject.transform.position).ToString().Substring(0, 5)
+            + (isCurrentEnemy ? " <" : "");
     }
 }
