@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +9,20 @@ public class Enemy : MonoBehaviour
 {
     private GameObject _player;
     private Slider _stateProgressBar;
-    
+
     public float State { get; private set; } = 0f;
     public float ShootSpeed = 0.5f;
+
+    private Material _wobbleMaterial;
 
     void Start()
     {
         _player = FindObjectOfType<PlayerMovement>().gameObject;
         _stateProgressBar = GetComponentInChildren<Slider>();
+
+        var renderers = GetComponentsInChildren<MeshRenderer>();
+        _wobbleMaterial = renderers.Select(mr => mr.material)
+            .First(m => m.name.Contains("EnemyWobble"));
     }
 
     // Update is called once per frame
@@ -46,7 +53,11 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         _stateProgressBar.value = State;
+
+        _wobbleMaterial.SetFloat("_Strength", Math.Max(State * 0.5f, 0f));
+        _wobbleMaterial.SetFloat("_Speed", Math.Max(State * 0.5f, 0f));
     }
 
     public void Hit(float damage)

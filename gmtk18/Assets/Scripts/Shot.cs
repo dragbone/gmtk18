@@ -18,7 +18,8 @@ public class Shot : MonoBehaviour
     {
         if (Target == null)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
+            enabled = false;
             return;
         }
 
@@ -29,6 +30,7 @@ public class Shot : MonoBehaviour
             Target.GetComponent<Enemy>().Hit(Damage);
             Destroy(gameObject, 2f);
             enabled = false;
+            return;
         }
 
         transform.rotation = Quaternion.LookRotation(Target.transform.position - transform.position);
