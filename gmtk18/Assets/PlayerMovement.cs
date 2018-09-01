@@ -1,11 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject Player;
-    public GameObject Enemy;
+    public Text GuiText;
+
+    private GameObject currentEnemy;
 
     void Update()
     {
@@ -29,9 +34,43 @@ public class PlayerMovement : MonoBehaviour
         {
             direction += Vector3.right;
         }
+        
+        var hitColliders = Physics.OverlapSphere(Player.transform.position, 20f);
 
-        var eulerAngles = Quaternion.LookRotation(Enemy.transform.position - transform.position, Vector3.up)
+        var enemies = new List<GameObject>();
+        
+        foreach(var collider in hitColliders)
+        {
+            if (collider.gameObject.CompareTag("Enemy"))
+            {
+                //var dist = Vector3.Distance(Player.transform.position, collider.gameObject.transform.position);
+                //Debug.Log("found enemy: " + collider.gameObject.name + " distance: " + dist);
+                enemies.Add(collider.gameObject);
+                if (currentEnemy == null)
+                {
+                    currentEnemy = collider.gameObject;
+                }
+            }
+        }
+
+        if (currentEnemy == null) return;
+
+        var enemyTexts = enemies.Select(e =>
+            e.name + " : Distance: " + Vector3.Distance(Player.transform.position, e.gameObject.transform.position).ToString().Substring(0, 5));
+
+        GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
+
+        var currentEnemyIndex = enemies.IndexOf(currentEnemy);
+        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            var nextEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
+            currentEnemy = enemies[nextEnemyIndex];
+        }
+            
+        var eulerAngles = Quaternion.LookRotation(currentEnemy.transform.position - transform.position, Vector3.up)
             .eulerAngles;
+            
         Player.transform.rotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
         Player.transform.Translate(direction * Time.deltaTime);
 
