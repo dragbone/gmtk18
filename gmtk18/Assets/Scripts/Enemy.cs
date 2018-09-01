@@ -37,5 +37,15 @@ public class Enemy : MonoBehaviour
                 State = Math.Max(State - Time.deltaTime * ShootSpeed, 0f);
             }
         }
+
+        if (State <= -1f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Hit(float damage)
+    {
+        State -= damage;
     }
 }

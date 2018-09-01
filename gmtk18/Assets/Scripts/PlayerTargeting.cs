@@ -70,12 +70,24 @@ public class PlayerTargeting : MonoBehaviour
         Camera.transform.rotation = Quaternion.Euler(lerpEulerAngles.x, lerpEulerAngles.y, lerpEulerAngles.z);
     }
 
+    private float _shooting = 0f;
+    private const float ShootingTime = 0.25f;
+
     public void Shoot()
     {
         if (CurrentEnemy != null)
         {
-            var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
-            shot.GetComponent<Shot>().Construct(CurrentEnemy.gameObject);
+            _shooting += Time.deltaTime;
+            while (_shooting >= ShootingTime)
+            {
+                var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
+                shot.GetComponent<Shot>().Construct(CurrentEnemy.gameObject, 0.25f);
+                _shooting -= ShootingTime;
+            }
+        }
+        else
+        {
+            _shooting = 0f;
         }
     }
 }

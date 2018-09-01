@@ -6,10 +6,12 @@ public class Shot : MonoBehaviour
 {
     public GameObject Target;
     private float _speed = 16f;
+    private float Damage;
 
-    public void Construct(GameObject target)
+    public void Construct(GameObject target, float damage)
     {
         Target = target;
+        Damage = damage;
     }
 
     void Update()
@@ -24,7 +26,7 @@ public class Shot : MonoBehaviour
             Vector3.MoveTowards(transform.position, Target.transform.position, _speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, Target.transform.position) < 0.01f)
         {
-            Destroy(Target);
+            Target.GetComponent<Enemy>().Hit(Damage);
             Destroy(gameObject);
         }
     }

@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             PlayerTargeting.SwitchEnemy();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             PlayerTargeting.Shoot();
         }
