@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, ITarget
 {
     private GameObject _player;
+    private PlayerState _playerState;
     private Slider _stateProgressBar;
     
     public float State { get; private set; } = 0f;
     public float ShootSpeed = 0.5f;
+    public GameObject ShotPrefab;
 
     void Start()
     {
         _player = FindObjectOfType<PlayerMovement>().gameObject;
+        _playerState = FindObjectOfType<PlayerState>();
         _stateProgressBar = GetComponentInChildren<Slider>();
     }
 
@@ -28,6 +31,7 @@ public class Enemy : MonoBehaviour
             {
                 State -= 1f;
                 // Shooty shoot now!
+                Shoot();
             }
         }
         else
@@ -47,10 +51,25 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
         _stateProgressBar.value = State;
+        _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
     public void Hit(float damage)
     {
         State -= damage;
+    }
+    
+    
+    private float _shooting = 0f;
+    private const float ShootingTime = 0.25f;
+    
+    public void Shoot()
+    {
+        if (_shooting <= 0f)
+        {
+            var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
+            shot.GetComponent<Shot>().Construct(_playerState.gameObject, 0.25f);
+            _shooting = ShootingTime;
+        }
     }
 }

@@ -26,7 +26,7 @@ public class Shot : MonoBehaviour
             Vector3.MoveTowards(transform.position, Target.transform.position, _speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, Target.transform.position) < 0.01f)
         {
-            Target.GetComponent<Enemy>().Hit(Damage);
+            Target.GetComponent<ITarget>().Hit(Damage);
             Destroy(gameObject, 2f);
             enabled = false;
         }

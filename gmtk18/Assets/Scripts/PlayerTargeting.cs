@@ -31,6 +31,7 @@ public class PlayerTargeting : MonoBehaviour
             .ToList();
         var enemyTexts = enemies.Select(GetEnemyRadarText);
         GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
+        _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
     public void SwitchEnemy()
@@ -75,7 +76,6 @@ public class PlayerTargeting : MonoBehaviour
 
     public void Shoot()
     {
-        _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
         if (CurrentEnemy != null)
         {
             if (_shooting <= 0f)
