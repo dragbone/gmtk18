@@ -34,12 +34,12 @@ public class PlayerMovement : MonoBehaviour
         {
             direction += Vector3.right;
         }
-        
+
         var hitColliders = Physics.OverlapSphere(Player.transform.position, 20f);
 
         var enemies = new List<GameObject>();
-        
-        foreach(var collider in hitColliders)
+
+        foreach (var collider in hitColliders)
         {
             if (collider.gameObject.CompareTag("Enemy"))
             {
@@ -58,36 +58,31 @@ public class PlayerMovement : MonoBehaviour
         GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
 
         var currentEnemyIndex = enemies.IndexOf(currentEnemy);
-        
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             var nextEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
             currentEnemy = enemies[nextEnemyIndex];
         }
-            
-        var eulerAngles = Quaternion.LookRotation(currentEnemy.transform.position - transform.position, Vector3.up)
-            .eulerAngles;
-        
-        var playerTargetRotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
-        if (Player.transform.rotation != playerTargetRotation)
-        {
-            Player.transform.rotation = Quaternion.Slerp(transform.rotation, playerTargetRotation, 15f * Time.deltaTime);
-        }
-        
-        var targetRotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-        if (transform.rotation != targetRotation)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 15f * Time.deltaTime);
-        }
-        
-        Player.transform.Translate(direction * Time.deltaTime);
+
+        UpdatedOrientation();
+        transform.Translate(direction * Time.deltaTime);
+    }
+
+    private void UpdatedOrientation()
+    {
+        var targetRotation = Quaternion.LookRotation(currentEnemy.transform.position - transform.position, Vector3.up);
+        var lerpEulerAngles = Quaternion.Lerp(transform.rotation, targetRotation, 15f * Time.deltaTime).eulerAngles;
+
+        Player.transform.rotation = Quaternion.Euler(0f, lerpEulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(lerpEulerAngles.x, lerpEulerAngles.y, lerpEulerAngles.z);
     }
 
     private string GetEnemyRadarText(GameObject enemy)
     {
-        var isCurrentEnemy = enemy == currentEnemy;
-        return enemy.name + " : Distance: " + Vector3
-                   .Distance(Player.transform.position, enemy.gameObject.transform.position).ToString().Substring(0, 5)
-            + (isCurrentEnemy ? " <" : "");
+        var distanceString = Vector3.Distance(Player.transform.position, enemy.gameObject.transform.position)
+            .ToString("0.00");
+        var enemyMarker = enemy == currentEnemy ? " <" : "";
+        return $"{enemy.name}: [distance: {distanceString}]{enemyMarker}";
     }
 }
