@@ -8,11 +8,24 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public GameObject Player;
+    public GameObject Camera;
     public Text GuiText;
     public GameObject ShotPrefab;
+    private float _speed = 4f;
 
     private GameObject currentEnemy;
+
+    private bool canJump = false;
+
+    private void OnCollisionStay(Collision other)
+    {
+        canJump = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        canJump = false;
+    }
 
     void Update()
     {
@@ -27,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
             direction += Vector3.back;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        /*if (Input.GetKey(KeyCode.A))
         {
             direction += Vector3.left;
         }
@@ -35,22 +48,24 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector3.right;
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        {
+            canJump = false;
+            var rigidbody = GetComponent<Rigidbody>();
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 5f, rigidbody.velocity.z);
         }
 
-        var hitColliders = Physics.OverlapSphere(Player.transform.position, 20f);
+        var enemies = Physics.OverlapSphere(transform.position, 20f)
+            .Select(c => c.gameObject)
+            .Where(g => g.CompareTag("Enemy"))
+            .OrderBy(c => Vector3.Distance(transform.position, c.transform.position))
+            .ToList();
 
-        var enemies = new List<GameObject>();
-
-        foreach (var collider in hitColliders)
+        if (currentEnemy == null)
         {
-            if (collider.gameObject.CompareTag("Enemy"))
-            {
-                enemies.Add(collider.gameObject);
-                if (currentEnemy == null)
-                {
-                    currentEnemy = collider.gameObject;
-                }
-            }
+            currentEnemy = enemies.FirstOrDefault()?.gameObject;
         }
 
         if (currentEnemy == null) return;
@@ -69,26 +84,26 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && currentEnemy != null)
         {
-            var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
+            var shot = Instantiate(ShotPrefab, Camera.transform.position, Quaternion.identity);
             shot.GetComponent<Shot>().Construct(currentEnemy);
         }
 
         UpdatedOrientation();
-        Player.transform.Translate(direction * Time.deltaTime);
+        transform.Translate(direction * _speed * Time.deltaTime);
     }
 
     private void UpdatedOrientation()
     {
-        var targetRotation = Quaternion.LookRotation(currentEnemy.transform.position - transform.position, Vector3.up);
-        var lerpEulerAngles = Quaternion.Lerp(transform.rotation, targetRotation, 15f * Time.deltaTime).eulerAngles;
+        var targetRotation = Quaternion.LookRotation(currentEnemy.transform.position - Camera.transform.position, Vector3.up);
+        var lerpEulerAngles = Quaternion.Lerp(Camera.transform.rotation, targetRotation, 15f * Time.deltaTime).eulerAngles;
 
-        Player.transform.rotation = Quaternion.Euler(0f, lerpEulerAngles.y, 0f);
-        transform.rotation = Quaternion.Euler(lerpEulerAngles.x, lerpEulerAngles.y, lerpEulerAngles.z);
+        transform.rotation = Quaternion.Euler(0f, lerpEulerAngles.y, 0f);
+        Camera.transform.rotation = Quaternion.Euler(lerpEulerAngles.x, lerpEulerAngles.y, lerpEulerAngles.z);
     }
 
     private string GetEnemyRadarText(GameObject enemy)
     {
-        var distanceString = Vector3.Distance(Player.transform.position, enemy.gameObject.transform.position)
+        var distanceString = Vector3.Distance(transform.position, enemy.gameObject.transform.position)
             .ToString("0.00");
         var enemyMarker = enemy == currentEnemy ? " <" : "";
         return $"{enemy.name}: [distance: {distanceString}]{enemyMarker}";
