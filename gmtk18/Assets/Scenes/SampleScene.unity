@@ -281,8 +281,8 @@ GameObject:
   - component: {fileID: 398224971}
   - component: {fileID: 398224970}
   - component: {fileID: 398224969}
-  m_Layer: 5
-  m_Name: Canvas
+  m_Layer: 0
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,7 +298,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1692768314}
+  - {fileID: 2137381930}
   m_Father: {fileID: 1687258585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -405,7 +405,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1839272283774574, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
       propertyPath: m_Name
-      value: Enemy 1 (1)
+      value: Enemy 3
       objectReference: {fileID: 0}
     - target: {fileID: 4870394902591034, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
       propertyPath: m_LocalScale.x
@@ -435,6 +435,12 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114849441934913160, guid: 944b00268f1ff684ab15018bab0d860f,
+        type: 2}
+      propertyPath: ProgressBarPrefab
+      value: 
+      objectReference: {fileID: 1040846870055148, guid: ef8a1a5a9ffcf564c9d29e2736b852ec,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
   m_IsPrefabAsset: 0
@@ -755,6 +761,12 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114849441934913160, guid: 944b00268f1ff684ab15018bab0d860f,
+        type: 2}
+      propertyPath: ProgressBarPrefab
+      value: 
+      objectReference: {fileID: 1040846870055148, guid: ef8a1a5a9ffcf564c9d29e2736b852ec,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
   m_IsPrefabAsset: 0
@@ -825,6 +837,12 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114943379398203418, guid: 130b4f4f2c14517478d4d3e8b24b87c1,
+        type: 2}
+      propertyPath: ProgressBarPrefab
+      value: 
+      objectReference: {fileID: 1040846870055148, guid: ef8a1a5a9ffcf564c9d29e2736b852ec,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 130b4f4f2c14517478d4d3e8b24b87c1, type: 2}
   m_IsPrefabAsset: 0
@@ -1224,8 +1242,8 @@ GameObject:
   - component: {fileID: 1692768314}
   - component: {fileID: 1692768316}
   - component: {fileID: 1692768315}
-  m_Layer: 5
-  m_Name: Text
+  m_Layer: 0
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1237,17 +1255,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1692768313}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 398224968}
+  m_Father: {fileID: 2137381930}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -302, y: 189}
-  m_SizeDelta: {x: 500, y: 300}
+  m_AnchoredPosition: {x: 5, y: 47}
+  m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1692768315
 MonoBehaviour:
@@ -1374,6 +1392,54 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1944322152}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2137381929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2137381930}
+  - component: {fileID: 2137381931}
+  m_Layer: 0
+  m_Name: EnemyInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2137381930
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137381929}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1692768314}
+  m_Father: {fileID: 398224968}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -348, y: 135.1}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2137381931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137381929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637c5567d198f904faa4d65dc393e957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProgressBar: {fileID: 114607943112188656, guid: 699d3a52b65a785449a369b7a5a4d9d5,
+    type: 2}
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0
