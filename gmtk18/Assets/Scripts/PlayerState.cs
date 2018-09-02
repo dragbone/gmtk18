@@ -51,6 +51,8 @@ public class PlayerState : MonoBehaviour, ITarget
 				return "level1";
 			case "level1":
 				return "level2";
+			case "level2":
+				return "credits";
 			default:
 				return null;
 		}
