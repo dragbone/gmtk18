@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +13,14 @@ public class PlayerState : MonoBehaviour, ITarget
 	public bool levelComplete { get; private set; }
 
 	private GameObject _level;
+	private float _hitPoints = 10;
+	private TextMeshProUGUI _text;
 	
 	// Use this for initialization
 	void Start () {
 		_level = GameObject.Find("Level");
+		_text = GetComponentInChildren<TextMeshProUGUI>();
+		_text.text = $"HP: {_hitPoints:0}";
 	}
 	
 	// Update is called once per frame
@@ -58,10 +63,10 @@ public class PlayerState : MonoBehaviour, ITarget
 		}
 	}
 
-	private float _hitPoints = 10;
 	public void Hit(float damage)
 	{
 		_hitPoints -= damage;
+		_text.text = $"HP: {_hitPoints:0}";
 		if (_hitPoints <= 0f)
 		{
 			Debug.Log("game over boyy");
