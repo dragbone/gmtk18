@@ -41,6 +41,7 @@ public class PlayerTargeting : MonoBehaviour
     }
 
     public const float PlayerTargetDistance = 80f;
+
     private List<Enemy> GetEnemies()
     {
         return Physics.OverlapSphere(transform.position, PlayerTargetDistance)
@@ -49,6 +50,11 @@ public class PlayerTargeting : MonoBehaviour
             .Select(g => g.GetComponent<Enemy>())
             .OrderBy(c => Vector3.Distance(transform.position, c.transform.position))
             .ToList();
+    }
+
+    private static Vector3 ZeroY(Vector3 vector)
+    {
+        return new Vector3(vector.x, 0f, vector.z);
     }
 
     public void SwitchEnemy(bool right)
@@ -64,25 +70,29 @@ public class PlayerTargeting : MonoBehaviour
             else
             {
                 var enemyPositions = enemies.Select(e => new
-                {
-                    Enemy = e,
-                    Pos = Camera.WorldToScreenPoint(e.transform.position)
-                }).ToList();
-                var currentEnemyPos = enemyPositions.Single(e => e.Enemy == CurrentEnemy).Pos;
+                    {
+                        Enemy = e,
+                        Pos = Camera.WorldToScreenPoint(e.transform.position),
+                        Dir = Vector3.SignedAngle(
+                            @from: (transform.rotation * Vector3.forward).normalized,
+                            to: ZeroY(e.transform.position - transform.position).normalized,
+                            axis: Vector3.up)
+                    })
+                    .ToList();
                 if (right)
                 {
-                    enemyPositions = enemyPositions.Where(e => e.Pos.x > currentEnemyPos.x)
-                        .OrderBy(e => e.Pos.x)
+                    enemyPositions = enemyPositions.Where(e => e.Dir > 0)
+                        .OrderBy(e => e.Dir)
                         .ToList();
                 }
                 else
                 {
-                    enemyPositions = enemyPositions.Where(e => e.Pos.x < currentEnemyPos.x)
-                        .OrderByDescending(e => e.Pos.x)
+                    enemyPositions = enemyPositions.Where(e => e.Dir < 0)
+                        .OrderByDescending(e => e.Dir)
                         .ToList();
                 }
 
-                var nextEnemy = enemyPositions.FirstOrDefault();
+                var nextEnemy = enemyPositions.FirstOrDefault(e => e.Enemy != CurrentEnemy);
                 if (nextEnemy != null)
                 {
                     CurrentEnemy = nextEnemy.Enemy;
