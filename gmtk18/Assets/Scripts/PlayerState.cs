@@ -13,7 +13,7 @@ public class PlayerState : MonoBehaviour, ITarget
 	public bool levelComplete { get; private set; }
 
 	private GameObject _level;
-	private float _hitPoints = 10;
+	private float _hitPoints = 3;
 	private TextMeshProUGUI _text;
 	
 	// Use this for initialization
