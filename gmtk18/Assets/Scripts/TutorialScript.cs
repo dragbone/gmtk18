@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class TutorialScript : MonoBehaviour
 	private Text _tutorialText;
 	private Image _tutorialTextBoxImage;
 	private GameObject _currentRoom;
+	private GameObject[] Rooms;
 	
 	private 
 	// Use this for initialization
@@ -18,9 +18,12 @@ public class TutorialScript : MonoBehaviour
 		_player = GameObject.Find("Player");
 		_tutorialTextObject = GameObject.Find("TutorialText");
 		_tutorialText = _tutorialTextObject.GetComponentInChildren<Text>();
-		_currentRoom = GameObject.Find("Room 1");
 		_tutorialText = _tutorialTextObject.GetComponentInChildren<Text>();
 		_tutorialTextBoxImage = _tutorialTextObject.GetComponentInChildren<Image>();
+
+		Rooms = GameObject.FindGameObjectsWithTag("Room")
+			.OrderBy(r => r.name)
+			.ToArray();
 		
 		StartTutorial();
 	}
@@ -28,95 +31,132 @@ public class TutorialScript : MonoBehaviour
 	void StartTutorial()
 	{
 		_tutorialText.text =
-			"Welcome to aimnot. You play as a script kiddie with an awesome Aimbot and Wallhack. Unfortunately, you forgot how to turn it off, so you have to navigate with the help of your enemies";
+			@"Welcome to aimnot. You play as a script kiddie with an awesome aimbot and wallhack.
+			Unfortunately, you forgot how to turn it off, so you have to navigate with the help of objects in the world";
 
 		Invoke(nameof(Step1), 10);
 	}
 
 	void Step1()
 	{
-		StartCoroutine(FadeTextToZeroAlpha(2f, () => {}));
-		Invoke(nameof(Step2), 3);
+		DisplayText("Use A and D to switch the targeted object. Try to get behind the cube.");
 	}
 
 	void Step2()
 	{
-		_tutorialText.text =
-			"Use A and D to switch the targeted enemy. Try to get behind the Cube";
-		StartCoroutine(FadeTextToFullAlpha(2f, () =>
-			{
-				Invoke(nameof(Step3), 3);
-			}));
+		DisplayText("Well done! The Enemy in the next room begins to charge its attack if you are visible to them. To avoid being hit, get behind a wall or shoot them yourself");
 	}
 
 	void Step3()
 	{
-		StartCoroutine(FadeTextToZeroAlpha(2f, () => { }));
+		DisplayText("Well done! Eliminate all enemies in the next room to complete the tutorial and move to the first level");
 	}
 
-	void Step4()
+	void DisplayText(string text)
 	{
-		_tutorialText.text =
-			"Well done! Enemies begin to charge their attacks if you are visible to them. To avoid being hit, get behind a Wall or shoot them yourself";
-		StartCoroutine(FadeTextToFullAlpha(2f, () =>
-		{
-			Invoke(nameof(Step5), 3);
-		}));
+		_tutorialText.text = text;
+		StartCoroutine(FadeTextToFullAlpha(2f));
+		Invoke(nameof(FadeText), 5);
 	}
-	
-	void Step5()
+
+	void FadeText()
 	{
-		StartCoroutine(FadeTextToZeroAlpha(2f, () => { }));
+		StartCoroutine(FadeTextToZeroAlpha(2f));
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		var door = _currentRoom.transform.Find("Door");
-		if (Vector3.Distance(_player.transform.position, door.position) < 3f)
+		if (_currentRoom == Rooms[0])
 		{
-			var collider = door.gameObject.GetComponent<BoxCollider>();
-			collider.enabled = false;
-			var renderer = door.gameObject.GetComponent<Renderer>();
-			renderer.enabled = false;
-			_currentRoom = GameObject.Find("Room 2");
-			StopAllCoroutines();
-			InstantTextFade();
-			Step4();
+			var door = _currentRoom.transform.Find("Door");
+			if (Vector3.Distance(_player.transform.position, door.position) < 4f)
+			{
+				door.gameObject.SetActive(false);
+				InterruptCurrentTutorialStep();
+				_currentRoom = Rooms[1];
+				SpawnRoom(_currentRoom);
+				Step2();
+			}
+		}
+		
+		if (_currentRoom == Rooms[1])
+		{
+			var enemies = _currentRoom.gameObject.GetComponentsInChildren<Enemy>();
+			if (!enemies.Any())
+			{
+				var door = _currentRoom.transform.Find("Door");
+				door.gameObject.SetActive(false);
+				_currentRoom = Rooms[2];
+				SpawnRoom(_currentRoom);
+				Step3();
+			}
 		}
 	}
 
-	private void InstantTextFade()
+	void DespawnRoom(GameObject room)
 	{
+		var enemies = room.gameObject.GetComponentsInChildren<Enemy>();
+		foreach (var enemy in enemies)
+		{
+			enemy.gameObject.SetActive(false);
+		}
+		var friendlyTargets = room.gameObject.GetComponentsInChildren<FriendlyTarget>();
+		foreach (var target in friendlyTargets)
+		{
+			target.gameObject.SetActive(false);
+		}
+	}
+	
+	void SpawnRoom(GameObject room)
+	{
+		var enemies = room.gameObject.GetComponentsInChildren<Enemy>(true);
+		foreach (var enemy in enemies)
+		{
+			enemy.gameObject.SetActive(true);
+		}
+		var friendlyTargets = room.gameObject.GetComponentsInChildren<FriendlyTarget>(true);
+		foreach (var target in friendlyTargets)
+		{
+			target.gameObject.SetActive(true);
+		}
+	}
+
+	private void InterruptCurrentTutorialStep()
+	{
+		StopAllCoroutines();
+		CancelInvoke();
 		_tutorialText.color = new Color(_tutorialText.color.r, _tutorialText.color.g, _tutorialText.color.b, 0);
 		_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, 0);
 	}
 	
-	private IEnumerator FadeTextToZeroAlpha(float t, Action callback)
+	private IEnumerator FadeTextToZeroAlpha(float t)
 	{
 		_tutorialText.color = new Color(_tutorialText.color.r, _tutorialText.color.g, _tutorialText.color.b, 1);
-		while (_tutorialText.color.a > 0.0f || _tutorialTextBoxImage.color.a > 0.0f)
+		_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, 0.5f);
+		while (_tutorialText.color.a > 0.0f)
 		{
 			_tutorialText.color = new Color(_tutorialText.color.r, _tutorialText.color.g, _tutorialText.color.b, _tutorialText.color.a - (Time.deltaTime / t));
 			if (_tutorialTextBoxImage.color.a > 0.0f)
 			{
-				_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, _tutorialTextBoxImage.color.a - (Time.deltaTime / t));
+				_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, _tutorialTextBoxImage.color.a - (Time.deltaTime / t / 2));
 			}
 			yield return null;
 		}
-
-		callback();
 	}
 	
-	private IEnumerator FadeTextToFullAlpha(float t, Action callback)
+	private IEnumerator FadeTextToFullAlpha(float t)
 	{
 		_tutorialText.color = new Color(_tutorialText.color.r, _tutorialText.color.g, _tutorialText.color.b, 0);
+		_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, 0);
 		while (_tutorialText.color.a < 1.0f)
 		{
 			_tutorialText.color = new Color(_tutorialText.color.r, _tutorialText.color.g, _tutorialText.color.b, _tutorialText.color.a + (Time.deltaTime / t));
+			if (_tutorialTextBoxImage.color.a < 0.5f)
+			{
+				_tutorialTextBoxImage.color = new Color(_tutorialTextBoxImage.color.r, _tutorialTextBoxImage.color.g, _tutorialTextBoxImage.color.b, _tutorialTextBoxImage.color.a + (Time.deltaTime / t / 2));
+			}
 			yield return null;
 		}
-
-		callback();
 	}
 }
