@@ -28,7 +28,7 @@ public class TutorialScript : MonoBehaviour
 	void StartTutorial()
 	{
 		_tutorialText.text =
-			"Welcome to [Gamename]. You play as a Scriptkid with an awesome Aimbot and Wallhack. Unfortunately, you forgot how to turn it off, so you have to navigate with the help of your enemies";
+			"Welcome to aimnot. You play as a script kiddie with an awesome Aimbot and Wallhack. Unfortunately, you forgot how to turn it off, so you have to navigate with the help of your enemies";
 
 		Invoke(nameof(Step1), 10);
 	}
