@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224137537262911662}
   - component: {fileID: 114495844864536892}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: VerticalProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4640346276766896}
   - component: {fileID: 33079371139020848}
   - component: {fileID: 23516993101326642}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Solid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 224537709742713592}
   - component: {fileID: 222277959872678690}
   - component: {fileID: 114442565389869538}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 114060460498491550}
   - component: {fileID: 114398862279959266}
   - component: {fileID: 114759307336095304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 224759731686949822}
   - component: {fileID: 222609326212677976}
   - component: {fileID: 114398188043304000}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4870394902591034}
   - component: {fileID: 65815953542806956}
   - component: {fileID: 114849441934913160}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224944638105296748}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 4684406229102510}
   - component: {fileID: 33011970606995386}
   - component: {fileID: 23480875023826400}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Solid_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4298008061420814}
   - component: {fileID: 95394006479322172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: enemy_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1839272283774574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.54054075, y: 0.334117, z: -0.4446437, w: -0.63124764}
   m_LocalPosition: {x: -3.8939261, y: 1.4221894, z: 2.0480444}
   m_LocalScale: {x: 0.5000002, y: 0.5000002, z: 0.50000024}
   m_Children:

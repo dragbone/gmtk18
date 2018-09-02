@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour, ITarget
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance)
+        if (IsPlayerInTargetDistance() && IsPlayerVisible())
         {
             State += Time.deltaTime * ShootSpeed;
             while (State >= 1f)
@@ -67,6 +67,18 @@ public class Enemy : MonoBehaviour, ITarget
         _wobbleState = Mathf.Lerp(_wobbleState, State, 0.1f);
         _wobbleMaterial.SetFloat("_Strength", Math.Max(_wobbleState * 0.5f, 0f));
         _wobbleMaterial.SetFloat("_Speed", Math.Max(_wobbleState * 0.5f, 0f));
+    }
+
+    private bool IsPlayerInTargetDistance()
+    {
+        return Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance;
+    }
+
+    private bool IsPlayerVisible()
+    {
+        RaycastHit hit;
+        var lineCastResult = Physics.Linecast(transform.position, _player.transform.position, out hit, ~((1 << 9) | (1 << 10)));
+        return !lineCastResult;
     }
 
     public void Hit(float damage)

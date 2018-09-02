@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4166932382702024}
   - component: {fileID: 33966145648694682}
   - component: {fileID: 23925997246559160}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Icosphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224973707162777002}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4612281700419526}
   - component: {fileID: 95613484691500504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: enemy_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 224569648659831034}
   - component: {fileID: 222916668894457726}
   - component: {fileID: 114798176540494120}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 114425134985295708}
   - component: {fileID: 114520260800278452}
   - component: {fileID: 114438920047699252}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 224559085247287642}
   - component: {fileID: 222423256249301768}
   - component: {fileID: 114099931798660370}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224975754311764064}
   - component: {fileID: 114116320904052218}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: VerticalProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4311440107309186}
   - component: {fileID: 33965066321052884}
   - component: {fileID: 23313690003367904}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4158378224057432}
   - component: {fileID: 65485035001835810}
   - component: {fileID: 114943379398203418}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy 2
   m_TagString: Enemy
   m_Icon: {fileID: 0}

@@ -118,6 +118,10 @@ public class PlayerTargeting : MonoBehaviour
     {
         if (CurrentEnemy != null)
         {
+            if (Physics.Linecast(transform.position, CurrentEnemy.transform.position, ~(1<<9)))
+            {
+                return;
+            }
             if (_shooting <= 0f)
             {
                 var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);

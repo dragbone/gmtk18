@@ -18,7 +18,7 @@ public class PlayerState : MonoBehaviour, ITarget
 		
 	}
 
-	private float hitPoints = 3;
+	private float hitPoints = 10;
 	public void Hit(float damage)
 	{
 		hitPoints -= damage;
