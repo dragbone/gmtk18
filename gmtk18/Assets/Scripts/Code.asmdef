@@ -1,3 +1,8 @@
-﻿{
-	"name": "Code"
+{
+    "name": "Code",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }
