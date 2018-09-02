@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour, ITarget
     private Slider _stateProgressBar;
 
     public float State { get; private set; } = 0f;
-    public float ShootSpeed = 0.5f;
+    public float ShootSpeed = 5f;
     public GameObject ShotPrefab;
 
     private Material _wobbleMaterial;
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour, ITarget
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance)
+        if (IsPlayerInTargetDistance() && IsPlayerVisible())
         {
             State += Time.deltaTime * ShootSpeed;
             while (State >= 1f)
@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, ITarget
 
         if (State <= -1f)
         {
+            _playerState.CheckLevelComplete(this);
             Destroy(gameObject);
         }
 
@@ -67,6 +68,18 @@ public class Enemy : MonoBehaviour, ITarget
         _wobbleState = Mathf.Lerp(_wobbleState, State, 0.1f);
         _wobbleMaterial.SetFloat("_Strength", Math.Max(_wobbleState * 0.5f, 0f));
         _wobbleMaterial.SetFloat("_Speed", Math.Max(_wobbleState * 0.5f, 0f));
+    }
+
+    private bool IsPlayerInTargetDistance()
+    {
+        return Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance;
+    }
+
+    private bool IsPlayerVisible()
+    {
+        RaycastHit hit;
+        var lineCastResult = Physics.Linecast(transform.position, _player.transform.position, out hit, ~((1 << 9) | (1 << 10)));
+        return !lineCastResult;
     }
 
     public void Hit(float damage)
@@ -83,7 +96,7 @@ public class Enemy : MonoBehaviour, ITarget
         if (_shooting <= 0f)
         {
             var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
-            shot.GetComponent<Shot>().Construct(_playerState.gameObject, 0.25f);
+            shot.GetComponent<Shot>().Construct(_playerState.gameObject, 1f);
             _shooting = ShootingTime;
         }
     }

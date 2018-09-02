@@ -12,8 +12,19 @@ public class PlayerTargeting : MonoBehaviour
     public Text GuiText;
     public GameObject ShotPrefab;
 
+    private PlayerState _playerState;
+
+    public void Start()
+    {
+        _playerState = FindObjectOfType<PlayerState>();
+    }
+
     void Update()
     {
+        if (_playerState.gameOver)
+        {
+            return;
+        }
         if (CurrentEnemy != null)
         {
             UpdatedOrientation();
@@ -117,6 +128,10 @@ public class PlayerTargeting : MonoBehaviour
     {
         if (CurrentEnemy != null)
         {
+            if (Physics.Linecast(transform.position, CurrentEnemy.transform.position, ~(1<<9)))
+            {
+                return;
+            }
             if (_shooting <= 0f)
             {
                 var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);

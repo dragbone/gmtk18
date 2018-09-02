@@ -205,11 +205,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 224636858041123224, guid: 17251494178937344914b2885ef61f34,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4939315091712146, guid: 17251494178937344914b2885ef61f34, type: 2}
       propertyPath: m_LocalPosition.x
       value: -1.1767673
@@ -241,6 +236,11 @@ Prefab:
     - target: {fileID: 4939315091712146, guid: 17251494178937344914b2885ef61f34, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224636858041123224, guid: 17251494178937344914b2885ef61f34,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17251494178937344914b2885ef61f34, type: 2}
@@ -293,6 +293,12 @@ Prefab:
       propertyPath: m_Name
       value: Enemy 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114849441934913160, guid: 944b00268f1ff684ab15018bab0d860f,
+        type: 2}
+      propertyPath: ShotPrefab
+      value: 
+      objectReference: {fileID: 1524487212237860, guid: d53798ec341210b49bff63703450a4c0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
   m_IsPrefabAsset: 0
@@ -497,11 +503,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114759307336095304, guid: 944b00268f1ff684ab15018bab0d860f,
-        type: 2}
-      propertyPath: cameraToLookAt
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944b00268f1ff684ab15018bab0d860f, type: 2}
   m_IsPrefabAsset: 0
@@ -543,11 +544,6 @@ Prefab:
     - target: {fileID: 4158378224057432, guid: 130b4f4f2c14517478d4d3e8b24b87c1, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114438920047699252, guid: 130b4f4f2c14517478d4d3e8b24b87c1,
-        type: 2}
-      propertyPath: cameraToLookAt
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 130b4f4f2c14517478d4d3e8b24b87c1, type: 2}

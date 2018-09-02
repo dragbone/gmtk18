@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public PlayerTargeting PlayerTargeting;
+    public PlayerState PlayerState;
     private float _speed = 4f;
 
     private bool canJump = false;
@@ -25,6 +27,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (PlayerState.gameOver)
+        {
+            // play death animation
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            return;
+        }
+
+        if (transform.position.y < -50f)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            return;
+        }
         var direction = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
