@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, ITarget
 {
     private GameObject _player;
+    private GameObject _playerMovement;
     private PlayerState _playerState;
     private Slider _stateProgressBar;
+    private Camera _camera;
 
     public float State { get; private set; } = 0f;
     public float ShootSpeed = 5f;
@@ -21,9 +22,11 @@ public class Enemy : MonoBehaviour, ITarget
 
     void Start()
     {
-        _player = FindObjectOfType<PlayerMovement>().gameObject;
-        _playerState = FindObjectOfType<PlayerState>();
+        _player = GameObject.Find("Player");
+        _playerMovement = _player.GetComponent<PlayerMovement>().gameObject;
+        _playerState = _player.GetComponent<PlayerState>();
         _stateProgressBar = GetComponentInChildren<Slider>();
+        _camera = _player.GetComponentInChildren<Camera>();
 
         var renderers = GetComponentsInChildren<MeshRenderer>();
         _wobbleMaterial = renderers.Select(mr => mr.material)
@@ -72,13 +75,13 @@ public class Enemy : MonoBehaviour, ITarget
 
     private bool IsPlayerInTargetDistance()
     {
-        return Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance;
+        return Vector3.Distance(transform.position, _playerMovement.transform.position) <= PlayerTargeting.PlayerTargetDistance;
     }
 
     private bool IsPlayerVisible()
     {
         RaycastHit hit;
-        var lineCastResult = Physics.Linecast(transform.position, _player.transform.position, out hit, ~((1 << 9) | (1 << 10)));
+        var lineCastResult = Physics.Linecast(transform.position, _camera.transform.position, out hit, ~((1 << 9) | (1 << 10)));
         return !lineCastResult;
     }
 
