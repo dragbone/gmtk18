@@ -242,21 +242,6 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114583137034292746, guid: 17251494178937344914b2885ef61f34,
-        type: 2}
-      propertyPath: PlayerState
-      value: 
-      objectReference: {fileID: 1507324675}
-    - target: {fileID: 224308303614891662, guid: 17251494178937344914b2885ef61f34,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 224308303614891662, guid: 17251494178937344914b2885ef61f34,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -440
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17251494178937344914b2885ef61f34, type: 2}
   m_IsPrefabAsset: 0
@@ -625,12 +610,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1507324675 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114809942775107464, guid: 17251494178937344914b2885ef61f34,
-    type: 2}
-  m_PrefabInternal: {fileID: 292022027}
-  m_Script: {fileID: 11500000, guid: 7bcc03ad41595e040bb10ecdc63e887d, type: 3}
 --- !u!1 &1603720931
 GameObject:
   m_ObjectHideFlags: 0

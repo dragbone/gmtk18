@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, ITarget
 
         if (State <= -1f)
         {
+            _playerState.CheckLevelComplete(this);
             Destroy(gameObject);
         }
 
