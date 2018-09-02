@@ -35,7 +35,7 @@ public class TutorialScript : MonoBehaviour
 		DespawnRoom(Rooms[2]);
 
 		DisplayText(@"Welcome to aimnot. You play as a script kiddie with an awesome aimbot and wallhack.
-            Unfortunately, you forgot how to turn it off, so you have to navigate with the help of objects in the world");
+Unfortunately, you forgot how to turn it off, so you have to navigate with the help of objects in the world");
 
 		Invoke(nameof(Step1), 10);
 	}
