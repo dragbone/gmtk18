@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerTargeting : MonoBehaviour
 {
     public Camera Camera;
-    public Enemy CurrentEnemy { get; private set; }
+    public GameObject CurrentTarget { get; private set; }
     public Text GuiText;
     public GameObject ShotPrefab;
 
@@ -25,13 +25,14 @@ public class PlayerTargeting : MonoBehaviour
         {
             return;
         }
-        if (CurrentEnemy != null)
+
+        if (CurrentTarget != null)
         {
             UpdatedOrientation();
         }
         else
         {
-            SwitchEnemy(true);
+            SwitchTarget(true);
         }
 
         var enemies = GetEnemies();
@@ -42,13 +43,19 @@ public class PlayerTargeting : MonoBehaviour
 
     public const float PlayerTargetDistance = 80f;
 
-    private List<Enemy> GetEnemies()
+    private List<GameObject> GetTargets()
     {
         return Physics.OverlapSphere(transform.position, PlayerTargetDistance)
             .Select(c => c.gameObject)
-            .Where(g => g.GetComponent<Enemy>() != null)
+            .Where(g => g.GetComponent<ITarget>() != null)
+            .ToList();
+    }
+
+    private List<Enemy> GetEnemies()
+    {
+        return GetTargets()
             .Select(g => g.GetComponent<Enemy>())
-            .OrderBy(c => Vector3.Distance(transform.position, c.transform.position))
+            .Where(e => e != null)
             .ToList();
     }
 
@@ -57,22 +64,21 @@ public class PlayerTargeting : MonoBehaviour
         return new Vector3(vector.x, 0f, vector.z);
     }
 
-    public void SwitchEnemy(bool right)
+    public void SwitchTarget(bool right)
     {
-        var enemies = GetEnemies();
+        var targets = GetTargets();
 
-        if (enemies.Any())
+        if (targets.Any())
         {
-            if (CurrentEnemy == null)
+            if (CurrentTarget == null)
             {
-                CurrentEnemy = enemies.First();
+                CurrentTarget = targets.First();
             }
             else
             {
-                var enemyPositions = enemies.Select(e => new
+                var targetPositions = targets.Select(e => new
                     {
-                        Enemy = e,
-                        Pos = Camera.WorldToScreenPoint(e.transform.position),
+                        Target = e,
                         Dir = Vector3.SignedAngle(
                             @from: (transform.rotation * Vector3.forward).normalized,
                             to: ZeroY(e.transform.position - transform.position).normalized,
@@ -81,21 +87,21 @@ public class PlayerTargeting : MonoBehaviour
                     .ToList();
                 if (right)
                 {
-                    enemyPositions = enemyPositions.Where(e => e.Dir > 0)
+                    targetPositions = targetPositions.Where(e => e.Dir > 0)
                         .OrderBy(e => e.Dir)
                         .ToList();
                 }
                 else
                 {
-                    enemyPositions = enemyPositions.Where(e => e.Dir < 0)
+                    targetPositions = targetPositions.Where(e => e.Dir < 0)
                         .OrderByDescending(e => e.Dir)
                         .ToList();
                 }
 
-                var nextEnemy = enemyPositions.FirstOrDefault(e => e.Enemy != CurrentEnemy);
+                var nextEnemy = targetPositions.FirstOrDefault(e => e.Target != CurrentTarget);
                 if (nextEnemy != null)
                 {
-                    CurrentEnemy = nextEnemy.Enemy;
+                    CurrentTarget = nextEnemy.Target;
                 }
             }
         }
@@ -105,14 +111,14 @@ public class PlayerTargeting : MonoBehaviour
     {
         var distance = Vector3.Distance(transform.position, enemy.transform.position);
 
-        var enemyMarker = enemy == CurrentEnemy ? " <" : "";
+        var enemyMarker = enemy == CurrentTarget ? " <" : "";
         return $"{enemy.name}: [distance: {distance:0.00}, state: {enemy.State:0.00}]{enemyMarker}";
     }
 
     private void UpdatedOrientation()
     {
         var targetRotation =
-            Quaternion.LookRotation(CurrentEnemy.transform.position - Camera.transform.position, Vector3.up);
+            Quaternion.LookRotation(CurrentTarget.transform.position - Camera.transform.position, Vector3.up);
 
         var lerpEulerAngles = Quaternion.Lerp(Camera.transform.rotation, targetRotation, 15f * Time.deltaTime)
             .eulerAngles;
@@ -126,16 +132,17 @@ public class PlayerTargeting : MonoBehaviour
 
     public void Shoot()
     {
-        if (CurrentEnemy != null)
+        if (CurrentTarget != null)
         {
-            if (Physics.Linecast(transform.position, CurrentEnemy.transform.position, ~(1<<9)))
+            if (Physics.Linecast(transform.position, CurrentTarget.transform.position, ~(1 << 9)))
             {
                 return;
             }
+
             if (_shooting <= 0f)
             {
                 var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
-                shot.GetComponent<Shot>().Construct(CurrentEnemy.gameObject, 0.25f);
+                shot.GetComponent<Shot>().Construct(CurrentTarget.gameObject, 0.25f);
                 _shooting = ShootingTime;
             }
         }

@@ -52,12 +52,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerTargeting.SwitchEnemy(false);
+            PlayerTargeting.SwitchTarget(false);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            PlayerTargeting.SwitchEnemy(true);
+            PlayerTargeting.SwitchTarget(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
