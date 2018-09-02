@@ -10,10 +10,12 @@ public class PlayerState : MonoBehaviour, ITarget
 
 	public bool gameOver { get; private set; }
 	public bool levelComplete { get; private set; }
+
+	private GameObject _level;
 	
 	// Use this for initialization
 	void Start () {
-		
+		_level = GameObject.Find("Level");
 	}
 	
 	// Update is called once per frame
@@ -23,7 +25,7 @@ public class PlayerState : MonoBehaviour, ITarget
 
 	public void CheckLevelComplete(Enemy killedEnemy)
 	{
-		var foundEnemies = FindObjectsOfType<Enemy>();
+		var foundEnemies = _level.GetComponentsInChildren<Enemy>(includeInactive: true);
 		if (!foundEnemies.Any(e => e != killedEnemy))
 		{
 			levelComplete = true;
@@ -43,6 +45,8 @@ public class PlayerState : MonoBehaviour, ITarget
 	{
 		switch (SceneManager.GetActiveScene().name)
 		{
+			case "tutorial":
+				return "SampleScene";
 			case "SampleScene":
 				return "level1";
 			case "level1":
