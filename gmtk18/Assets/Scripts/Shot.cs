@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shot : MonoBehaviour
 {
     public GameObject Target;
-    private float _speed = 32f;
+    private float _speed = 64f;
     private float Damage;
 
     public void Construct(GameObject target, float damage)

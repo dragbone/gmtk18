@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShootSpeed: 0.25
-  ShotPrefab: {fileID: 1524487212237860, guid: d53798ec341210b49bff63703450a4c0, type: 2}
+  ShotPrefab: {fileID: 1524487212237860, guid: d95c3aa9e2b603541841c1603eee6515, type: 2}
 --- !u!222 &222277959872678690
 CanvasRenderer:
   m_ObjectHideFlags: 1
