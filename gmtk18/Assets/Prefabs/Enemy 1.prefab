@@ -494,6 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1891d90fdbd7b5e41a454f6d2ddbd1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathEffectPrefab: {fileID: 1557864498646422, guid: 8afd24273ea1ea046850b140b7cf4d58,
+    type: 2}
   ShootSpeed: 0.25
   ShotPrefab: {fileID: 1524487212237860, guid: d95c3aa9e2b603541841c1603eee6515, type: 2}
 --- !u!222 &222277959872678690

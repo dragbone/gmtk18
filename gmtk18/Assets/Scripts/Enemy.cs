@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour, ITarget
     private PlayerState _playerState;
     private Slider _stateProgressBar;
     private Camera _camera;
+    public GameObject DeathEffectPrefab;
 
     public float State { get; private set; } = 0f;
     public float ShootSpeed = 5f;
@@ -61,6 +62,7 @@ public class Enemy : MonoBehaviour, ITarget
 
         if (State <= -1f)
         {
+            Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
             _playerState.CheckLevelComplete(this);
             Destroy(gameObject);
         }

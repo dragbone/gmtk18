@@ -47,7 +47,7 @@ public class PlayerTargeting : MonoBehaviour
     {
         return Physics.OverlapSphere(transform.position, PlayerTargetDistance)
             .Select(c => c.gameObject)
-            .Where(g => g.GetComponent<ITarget>() != null)
+            .Where(g => g.GetComponent<ITarget>() != null && !(g.GetComponent<ITarget>() is PlayerState))
             .ToList();
     }
 
@@ -70,39 +70,40 @@ public class PlayerTargeting : MonoBehaviour
 
         if (targets.Any())
         {
+            var targetPositions = targets
+                .Where(t => t != CurrentTarget)
+                .Select(e => new
+                {
+                    Target = e,
+                    Dir = Vector3.SignedAngle(
+                        @from: (transform.rotation * Vector3.forward).normalized,
+                        to: ZeroY(e.transform.position - transform.position).normalized,
+                        axis: Vector3.up)
+                })
+                .ToList();
             if (CurrentTarget == null)
             {
-                CurrentTarget = targets.First();
+                targetPositions = targetPositions
+                    .OrderBy(e => Math.Abs(e.Dir))
+                    .ToList();
+            }
+            else if (right)
+            {
+                targetPositions = targetPositions.Where(e => e.Dir > 0)
+                    .OrderBy(e => e.Dir)
+                    .ToList();
             }
             else
             {
-                var targetPositions = targets.Select(e => new
-                    {
-                        Target = e,
-                        Dir = Vector3.SignedAngle(
-                            @from: (transform.rotation * Vector3.forward).normalized,
-                            to: ZeroY(e.transform.position - transform.position).normalized,
-                            axis: Vector3.up)
-                    })
+                targetPositions = targetPositions.Where(e => e.Dir < 0)
+                    .OrderByDescending(e => e.Dir)
                     .ToList();
-                if (right)
-                {
-                    targetPositions = targetPositions.Where(e => e.Dir > 0)
-                        .OrderBy(e => e.Dir)
-                        .ToList();
-                }
-                else
-                {
-                    targetPositions = targetPositions.Where(e => e.Dir < 0)
-                        .OrderByDescending(e => e.Dir)
-                        .ToList();
-                }
+            }
 
-                var nextEnemy = targetPositions.FirstOrDefault(e => e.Target != CurrentTarget);
-                if (nextEnemy != null)
-                {
-                    CurrentTarget = nextEnemy.Target;
-                }
+            var nextEnemy = targetPositions.FirstOrDefault(e => e.Target != CurrentTarget);
+            if (nextEnemy != null)
+            {
+                CurrentTarget = nextEnemy.Target;
             }
         }
     }
