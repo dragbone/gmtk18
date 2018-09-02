@@ -9,6 +9,7 @@ public class PlayerTargeting : MonoBehaviour
     public Camera Camera;
     public GameObject CurrentTarget { get; private set; }
     public GameObject ShotPrefab;
+    public RectTransform AimTransform;
 
     private PlayerState _playerState;
 
@@ -34,6 +35,16 @@ public class PlayerTargeting : MonoBehaviour
         }
 
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
+
+        var aimScale = 1f;
+        if (CurrentTarget != null)
+        {
+            var dist = Vector3.Distance(transform.position, CurrentTarget.transform.position);
+            var distScale = 8f / dist;
+            aimScale = Math.Max(Math.Min(1.5f, distScale), 0.25f);
+        }
+
+        AimTransform.localScale = new Vector3(aimScale, aimScale, aimScale);
     }
 
 
