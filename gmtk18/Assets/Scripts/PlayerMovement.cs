@@ -36,14 +36,14 @@ public class PlayerMovement : MonoBehaviour
             direction += Vector3.back;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            direction += Vector3.left;
+            PlayerTargeting.SwitchEnemy(false);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            direction += Vector3.right;
+            PlayerTargeting.SwitchEnemy(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
@@ -51,11 +51,6 @@ public class PlayerMovement : MonoBehaviour
             canJump = false;
             var rigidbody = GetComponent<Rigidbody>();
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 5f, rigidbody.velocity.z);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            PlayerTargeting.SwitchEnemy();
         }
 
         if (Input.GetMouseButton(0))

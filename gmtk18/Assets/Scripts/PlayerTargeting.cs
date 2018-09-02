@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerTargeting : MonoBehaviour
 {
-    public GameObject Camera;
+    public Camera Camera;
     public Enemy CurrentEnemy { get; private set; }
     public Text GuiText;
     public GameObject ShotPrefab;
@@ -20,7 +20,7 @@ public class PlayerTargeting : MonoBehaviour
         }
         else
         {
-            SwitchEnemy();
+            SwitchEnemy(true);
         }
 
         var enemies = Physics.OverlapSphere(transform.position, 20f)
@@ -34,7 +34,7 @@ public class PlayerTargeting : MonoBehaviour
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
-    public void SwitchEnemy()
+    public void SwitchEnemy(bool right)
     {
         var enemies = Physics.OverlapSphere(transform.position, 20f)
             .Select(c => c.gameObject)
@@ -45,17 +45,44 @@ public class PlayerTargeting : MonoBehaviour
 
         if (enemies.Any())
         {
-            var currentEnemyIndex = enemies.IndexOf(CurrentEnemy);
-            var nextEnemyIndex = (currentEnemyIndex + 1) % enemies.Count;
-            CurrentEnemy = enemies[nextEnemyIndex];
-        }
+            if (CurrentEnemy == null)
+            {
+                CurrentEnemy = enemies.First();
+            }
+            else
+            {
+                var enemyPositions = enemies.Select(e => new
+                {
+                    Enemy = e,
+                    Pos = Camera.WorldToScreenPoint(e.transform.position)
+                }).ToList();
+                var currentEnemyPos = enemyPositions.Single(e => e.Enemy == CurrentEnemy).Pos;
+                if (right)
+                {
+                    enemyPositions = enemyPositions.Where(e => e.Pos.x > currentEnemyPos.x)
+                        .OrderBy(e => e.Pos.x)
+                        .ToList();
+                }
+                else
+                {
+                    enemyPositions = enemyPositions.Where(e => e.Pos.x < currentEnemyPos.x)
+                        .OrderByDescending(e => e.Pos.x)
+                        .ToList();
+                }
 
-        CurrentEnemy = CurrentEnemy ?? enemies.FirstOrDefault();
+                var nextEnemy = enemyPositions.FirstOrDefault();
+                if (nextEnemy != null)
+                {
+                    CurrentEnemy = nextEnemy.Enemy;
+                }
+            }
+        }
     }
 
     private string GetEnemyRadarText(Enemy enemy)
     {
         var distance = Vector3.Distance(transform.position, enemy.transform.position);
+
         var enemyMarker = enemy == CurrentEnemy ? " <" : "";
         return $"{enemy.name}: [distance: {distance:0.00}, state: {enemy.State:0.00}]{enemyMarker}";
     }
@@ -64,6 +91,7 @@ public class PlayerTargeting : MonoBehaviour
     {
         var targetRotation =
             Quaternion.LookRotation(CurrentEnemy.transform.position - Camera.transform.position, Vector3.up);
+
         var lerpEulerAngles = Quaternion.Lerp(Camera.transform.rotation, targetRotation, 15f * Time.deltaTime)
             .eulerAngles;
 
