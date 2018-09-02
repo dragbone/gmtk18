@@ -240,7 +240,7 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9aaf1a895d787694eb8d2bf645ce2871, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &292022027
+--- !u!1001 &330419531
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -279,10 +279,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224636858041123224, guid: 17251494178937344914b2885ef61f34,
+    - target: {fileID: 114693200553173640, guid: 17251494178937344914b2885ef61f34,
         type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114693200553173640, guid: 17251494178937344914b2885ef61f34,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17251494178937344914b2885ef61f34, type: 2}

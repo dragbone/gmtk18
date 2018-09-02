@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerTargeting : MonoBehaviour
 {
     public const float PlayerTargetDistance = 32f;
     public Camera Camera;
     public GameObject CurrentTarget { get; private set; }
-    public Text GuiText;
     public GameObject ShotPrefab;
 
     private PlayerState _playerState;
@@ -36,9 +33,6 @@ public class PlayerTargeting : MonoBehaviour
             SwitchTarget(true);
         }
 
-        var enemies = GetEnemies();
-        var enemyTexts = enemies.Select(GetEnemyRadarText);
-        GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
@@ -48,14 +42,6 @@ public class PlayerTargeting : MonoBehaviour
         return Physics.OverlapSphere(transform.position, PlayerTargetDistance)
             .Select(c => c.gameObject)
             .Where(g => g.GetComponent<ITarget>() != null && !(g.GetComponent<ITarget>() is PlayerState))
-            .ToList();
-    }
-
-    private List<Enemy> GetEnemies()
-    {
-        return GetTargets()
-            .Select(g => g.GetComponent<Enemy>())
-            .Where(e => e != null)
             .ToList();
     }
 
@@ -106,14 +92,6 @@ public class PlayerTargeting : MonoBehaviour
                 CurrentTarget = nextEnemy.Target;
             }
         }
-    }
-
-    private string GetEnemyRadarText(Enemy enemy)
-    {
-        var distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-        var enemyMarker = enemy == CurrentTarget ? " <" : "";
-        return $"{enemy.name}: [distance: {distance:0.00}, state: {enemy.State:0.00}]{enemyMarker}";
     }
 
     private void UpdatedOrientation()
