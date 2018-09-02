@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour, ITarget
     private Slider _stateProgressBar;
 
     public float State { get; private set; } = 0f;
-    public float ShootSpeed = 0.5f;
+    public float ShootSpeed = 5f;
     public GameObject ShotPrefab;
 
     private Material _wobbleMaterial;
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour, ITarget
         if (_shooting <= 0f)
         {
             var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
-            shot.GetComponent<Shot>().Construct(_playerState.gameObject, 0.25f);
+            shot.GetComponent<Shot>().Construct(_playerState.gameObject, 1f);
             _shooting = ShootingTime;
         }
     }

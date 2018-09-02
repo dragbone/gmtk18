@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour, ITarget {
+public class PlayerState : MonoBehaviour, ITarget
+{
 
+	public bool gameOver { get; private set; }
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -14,10 +18,15 @@ public class PlayerState : MonoBehaviour, ITarget {
 		
 	}
 
-	private float hitPoints = 10;
+	private float hitPoints = 3;
 	public void Hit(float damage)
 	{
 		hitPoints -= damage;
 		Debug.Log("you got hit :( " + hitPoints + "hp remaining");
+		if (Math.Abs(hitPoints) < 0.1f)
+		{
+			Debug.Log("game over boyy");
+			gameOver = true;
+		}
 	}
 }

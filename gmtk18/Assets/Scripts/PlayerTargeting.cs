@@ -12,8 +12,19 @@ public class PlayerTargeting : MonoBehaviour
     public Text GuiText;
     public GameObject ShotPrefab;
 
+    private PlayerState _playerState;
+
+    public void Start()
+    {
+        _playerState = FindObjectOfType<PlayerState>();
+    }
+
     void Update()
     {
+        if (_playerState.gameOver)
+        {
+            return;
+        }
         if (CurrentEnemy != null)
         {
             UpdatedOrientation();
