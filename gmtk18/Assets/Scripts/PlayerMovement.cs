@@ -31,7 +31,9 @@ public class PlayerMovement : MonoBehaviour
         _playerState = GetComponent<PlayerState>();
     }
 
-    void FixedUpdate()
+    private Vector3 moveDirection;
+
+    void Update()
     {
         if (_playerState.gameOver)
         {
@@ -45,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
+
         var direction = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
@@ -78,7 +81,11 @@ public class PlayerMovement : MonoBehaviour
             _playerTargeting.Shoot();
         }
 
-        transform.Translate(direction * _speed * Time.deltaTime);
+        moveDirection = direction * _speed * Time.deltaTime;
     }
 
+    private void FixedUpdate()
+    {
+        transform.Translate(moveDirection);
+    }
 }
