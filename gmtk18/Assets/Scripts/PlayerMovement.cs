@@ -81,11 +81,11 @@ public class PlayerMovement : MonoBehaviour
             _playerTargeting.Shoot();
         }
 
-        moveDirection = direction * _speed * Time.deltaTime;
+        moveDirection = direction * _speed;
     }
 
     private void FixedUpdate()
     {
-        transform.Translate(moveDirection);
+        transform.Translate(moveDirection * Time.deltaTime);
     }
 }
