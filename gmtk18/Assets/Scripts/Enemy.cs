@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour, ITarget
 
     private Material _wobbleMaterial;
     private float _wobbleState;
-    
+
     void Start()
     {
         _player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour, ITarget
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, _player.transform.position) < 5f)
+        if (Vector3.Distance(transform.position, _player.transform.position) <= PlayerTargeting.PlayerTargetDistance)
         {
             State += Time.deltaTime * ShootSpeed;
             while (State >= 1f)
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour, ITarget
             Destroy(gameObject);
         }
 
-        _stateProgressBar.value = State;
+        _stateProgressBar.value = State / 2f + 0.5f;
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
 
         _wobbleState = Mathf.Lerp(_wobbleState, State, 0.1f);
@@ -73,11 +73,11 @@ public class Enemy : MonoBehaviour, ITarget
     {
         State -= damage;
     }
-    
-    
+
+
     private float _shooting = 0f;
     private const float ShootingTime = 0.25f;
-    
+
     public void Shoot()
     {
         if (_shooting <= 0f)

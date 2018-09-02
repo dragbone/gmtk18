@@ -23,25 +23,26 @@ public class PlayerTargeting : MonoBehaviour
             SwitchEnemy(true);
         }
 
-        var enemies = Physics.OverlapSphere(transform.position, 20f)
-            .Select(c => c.gameObject)
-            .Where(g => g.GetComponent<Enemy>() != null)
-            .Select(g => g.GetComponent<Enemy>())
-            .OrderBy(c => Vector3.Distance(transform.position, c.transform.position))
-            .ToList();
+        var enemies = GetEnemies();
         var enemyTexts = enemies.Select(GetEnemyRadarText);
         GuiText.text = "Enemies:" + Environment.NewLine + String.Join(Environment.NewLine, enemyTexts);
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
-    public void SwitchEnemy(bool right)
+    public const float PlayerTargetDistance = 80f;
+    private List<Enemy> GetEnemies()
     {
-        var enemies = Physics.OverlapSphere(transform.position, 20f)
+        return Physics.OverlapSphere(transform.position, PlayerTargetDistance)
             .Select(c => c.gameObject)
             .Where(g => g.GetComponent<Enemy>() != null)
             .Select(g => g.GetComponent<Enemy>())
             .OrderBy(c => Vector3.Distance(transform.position, c.transform.position))
             .ToList();
+    }
+
+    public void SwitchEnemy(bool right)
+    {
+        var enemies = GetEnemies();
 
         if (enemies.Any())
         {
