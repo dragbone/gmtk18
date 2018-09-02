@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerTargeting : MonoBehaviour
 {
+    public const float PlayerTargetDistance = 32f;
     public Camera Camera;
     public GameObject CurrentTarget { get; private set; }
     public Text GuiText;
@@ -41,7 +42,6 @@ public class PlayerTargeting : MonoBehaviour
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
     }
 
-    public const float PlayerTargetDistance = 80f;
 
     private List<GameObject> GetTargets()
     {

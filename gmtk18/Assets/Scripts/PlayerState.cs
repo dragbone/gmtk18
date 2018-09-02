@@ -56,12 +56,11 @@ public class PlayerState : MonoBehaviour, ITarget
 		}
 	}
 
-	private float hitPoints = 10;
+	private float _hitPoints = 10;
 	public void Hit(float damage)
 	{
-		hitPoints -= damage;
-		Debug.Log("you got hit :( " + hitPoints + "hp remaining");
-		if (Math.Abs(hitPoints) < 0.1f)
+		_hitPoints -= damage;
+		if (_hitPoints <= 0f)
 		{
 			Debug.Log("game over boyy");
 			gameOver = true;
