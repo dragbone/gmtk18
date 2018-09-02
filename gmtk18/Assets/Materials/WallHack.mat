@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: WallHack
-  m_Shader: {fileID: 4800000, guid: 02664f7717bcf1d42a337eb8097c3055, type: 3}
+  m_Shader: {fileID: 4800000, guid: 632fe8f1cd4459041b61c4f160a5dc13, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -80,7 +80,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.08280852, g: 1, b: 0.0039215684, a: 1}
+    - _Color: {r: 0.78431374, g: 0, b: 0, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OccludedColor: {r: 0.6320754, g: 0.020870427, b: 0.020870427, a: 1}
