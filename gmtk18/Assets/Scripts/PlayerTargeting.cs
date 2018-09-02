@@ -142,7 +142,8 @@ public class PlayerTargeting : MonoBehaviour
 
             if (_shooting <= 0f)
             {
-                var shot = Instantiate(ShotPrefab, transform.position, Quaternion.identity);
+                var gun = GetComponentInChildren<Gun>();
+                var shot = Instantiate(ShotPrefab, gun.transform.position, Quaternion.identity);
                 shot.GetComponent<Shot>().Construct(CurrentTarget.gameObject, 0.25f);
                 _shooting = ShootingTime;
             }
