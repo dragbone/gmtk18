@@ -233,7 +233,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d1e1af13ac84b9146b53226da13c1460, type: 3}
+  - {fileID: 2100000, guid: b8d85e5e51c140e4b8728bebf9dcfe80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -269,6 +269,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 2f9c683a5b0c39f45b60729c008a9e68, type: 2}
+  - {fileID: 2100000, guid: 60237396cf23e1e4d908e448e980307c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -493,8 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1891d90fdbd7b5e41a454f6d2ddbd1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathEffectPrefab: {fileID: 1557864498646422, guid: 8afd24273ea1ea046850b140b7cf4d58,
+    type: 2}
   ShootSpeed: 0.25
-  ShotPrefab: {fileID: 1524487212237860, guid: d53798ec341210b49bff63703450a4c0, type: 2}
+  ShotPrefab: {fileID: 1524487212237860, guid: d95c3aa9e2b603541841c1603eee6515, type: 2}
 --- !u!222 &222277959872678690
 CanvasRenderer:
   m_ObjectHideFlags: 1
