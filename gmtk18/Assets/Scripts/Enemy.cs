@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, ITarget
 {
@@ -16,7 +17,8 @@ public class Enemy : MonoBehaviour, ITarget
     public GameObject ShotPrefab;
 
     private Material _wobbleMaterial;
-
+    private float _wobbleState;
+    
     void Start()
     {
         _player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour, ITarget
             while (State >= 1f)
             {
                 State -= 1f;
+                _wobbleState += 8f;
                 // Shooty shoot now!
                 Shoot();
             }
@@ -61,8 +64,9 @@ public class Enemy : MonoBehaviour, ITarget
         _stateProgressBar.value = State;
         _shooting = Math.Max(_shooting - Time.deltaTime, 0f);
 
-        _wobbleMaterial.SetFloat("_Strength", Math.Max(State * 0.5f, 0f));
-        _wobbleMaterial.SetFloat("_Speed", Math.Max(State * 0.5f, 0f));
+        _wobbleState = Mathf.Lerp(_wobbleState, State, 0.1f);
+        _wobbleMaterial.SetFloat("_Strength", Math.Max(_wobbleState * 0.5f, 0f));
+        _wobbleMaterial.SetFloat("_Speed", Math.Max(_wobbleState * 0.5f, 0f));
     }
 
     public void Hit(float damage)
