@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 114583137034292746}
   - component: {fileID: 114619906657209908}
   - component: {fileID: 114809942775107464}
+  - component: {fileID: 114419281651177790}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -205,6 +206,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114419281651177790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1109564535674838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bcc03ad41595e040bb10ecdc63e887d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114468149345008838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579c44144e304f29801932c55a84d523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 1003066151635010}
+  Camera: {fileID: 20629187767509050}
   GuiText: {fileID: 114849622535300086}
   ShotPrefab: {fileID: 1524487212237860, guid: d53798ec341210b49bff63703450a4c0, type: 2}
 --- !u!114 &114809942775107464
