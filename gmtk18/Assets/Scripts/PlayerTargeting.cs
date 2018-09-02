@@ -16,7 +16,7 @@ public class PlayerTargeting : MonoBehaviour
 
     public void Start()
     {
-        _playerState = FindObjectOfType<PlayerState>();
+        _playerState = GetComponent<PlayerState>();
     }
 
     void Update()
@@ -134,7 +134,7 @@ public class PlayerTargeting : MonoBehaviour
     {
         if (CurrentTarget != null)
         {
-            if (Physics.Linecast(transform.position, CurrentTarget.transform.position, ~(1 << 9)))
+            if (Physics.Linecast(Camera.transform.position, CurrentTarget.transform.position, ~(1 << 9)))
             {
                 return;
             }

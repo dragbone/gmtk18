@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public PlayerTargeting PlayerTargeting;
-    public PlayerState PlayerState;
+    private PlayerTargeting _playerTargeting;
+    private PlayerState _playerState;
     private float _speed = 4f;
 
     private bool canJump = false;
@@ -25,9 +25,15 @@ public class PlayerMovement : MonoBehaviour
         canJump = false;
     }
 
+    void Start()
+    {
+        _playerTargeting = GetComponent<PlayerTargeting>();
+        _playerState = GetComponent<PlayerState>();
+    }
+
     void Update()
     {
-        if (PlayerState.gameOver)
+        if (_playerState.gameOver)
         {
             // play death animation
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -52,12 +58,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerTargeting.SwitchTarget(false);
+            _playerTargeting.SwitchTarget(false);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            PlayerTargeting.SwitchTarget(true);
+            _playerTargeting.SwitchTarget(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
@@ -69,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            PlayerTargeting.Shoot();
+            _playerTargeting.Shoot();
         }
 
         transform.Translate(direction * _speed * Time.deltaTime);
