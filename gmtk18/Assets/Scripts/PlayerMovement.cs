@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         _playerState = GetComponent<PlayerState>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_playerState.gameOver)
         {
